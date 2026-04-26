@@ -206,12 +206,12 @@ const KelolaPengaduan = () => {
                               DARI WARGA:
                             </p>
                             <img
-                              src={`http://localhost:5000/public/uploads/pengaduan/${item.foto_bukti}`}
+                              src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${item.foto_bukti}`}
                               alt="Bukti Warga"
                               className="h-40 sm:h-32 w-full object-cover rounded-md cursor-pointer hover:opacity-90"
                               onClick={() =>
                                 window.open(
-                                  `http://localhost:5000/public/uploads/pengaduan/${item.foto_bukti}`,
+                                  `https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${item.foto_bukti}`,
                                   "_blank",
                                 )
                               }
@@ -227,12 +227,12 @@ const KelolaPengaduan = () => {
                             </p>
                             {item.foto_hasil ? (
                               <img
-                                src={`http://localhost:5000/public/uploads/pengaduan/${item.foto_hasil}`}
+                                src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${item.foto_hasil}`}
                                 alt="Bukti Hasil"
                                 className="h-40 sm:h-32 w-full object-cover rounded-md cursor-pointer hover:opacity-90 border border-green-300"
                                 onClick={() =>
                                   window.open(
-                                    `http://localhost:5000/public/uploads/pengaduan/${item.foto_hasil}`,
+                                    `https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${item.foto_hasil}`,
                                     "_blank",
                                   )
                                 }

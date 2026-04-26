@@ -94,7 +94,7 @@ const Riwayat = () => {
 
     const toastId = toast.loading("Menyiapkan file untuk diunduh...");
     try {
-      const url = `http://localhost:5000/public/uploads/syarat/${fileName}`;
+      const url = `https://desa-mragel-backend.vercel.app/public/uploads/syarat/${fileName}`;
 
       // Ambil file dari server
       const response = await fetch(url);
@@ -587,7 +587,7 @@ const Riwayat = () => {
                       </label>
                       {/* 👇 DITAMBAH /public/ DI SINI 👇 */}
                       <img
-                        src={`http://localhost:5000/public/uploads/pengaduan/${selectedItem.foto_bukti}`}
+                        src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_bukti}`}
                         alt="Bukti Warga"
                         className="w-full h-64 object-cover rounded-lg border border-gray-200"
                         onError={(e) => (e.target.style.display = "none")}
@@ -610,7 +610,7 @@ const Riwayat = () => {
                           </p>
                           {/* 👇 DITAMBAH /public/ DI SINI JUGA 👇 */}
                           <img
-                            src={`http://localhost:5000/public/uploads/pengaduan/${selectedItem.foto_hasil}`}
+                            src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_hasil}`}
                             alt="Bukti Tindakan Petugas"
                             className="w-full h-64 object-cover rounded-lg border border-blue-300 shadow-sm"
                             onError={(e) => (e.target.style.display = "none")}

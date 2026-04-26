@@ -149,7 +149,7 @@ const KelolaArsip = () => {
                           <button
                             onClick={() =>
                               window.open(
-                                `http://localhost:5000/public/uploads/surat/${item.file_hasil}`,
+                                `https://desa-mragel-backend.vercel.app/public/uploads/surat/${item.file_hasil}`,
                                 "_blank",
                               )
                             }

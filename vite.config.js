@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // Artinya: Semua request yang diawali '/api' akan diteruskan ke backend
       "/api": {
-        target: "http://localhost:5000", // GANTI 5000 SESUAI PORT BACKEND ANDA
+        target: "https://desa-mragel-backend.vercel.app", // GANTI 5000 SESUAI PORT BACKEND ANDA
         changeOrigin: true,
         secure: false,
       },

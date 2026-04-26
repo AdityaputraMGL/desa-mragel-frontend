@@ -93,7 +93,7 @@ const KelolaPengajuan = () => {
 
   const getImageUrl = (filename) => {
     if (!filename) return null;
-    return `http://localhost:5000/public/uploads/syarat/${filename}`;
+    return `https://desa-mragel-backend.vercel.app/public/uploads/syarat/${filename}`;
   };
 
   return (
@@ -389,7 +389,7 @@ const KelolaPengajuan = () => {
                           berhasil diunggah dan dikirim ke warga.
                         </p>
                         <a
-                          href={`http://localhost:5000/public/uploads/surat/${selectedItem.file_hasil}`}
+                          href={`https://desa-mragel-backend.vercel.app/public/uploads/surat/${selectedItem.file_hasil}`}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center px-4 py-2 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-50 transition-colors focus:ring-4 focus:ring-green-100"
