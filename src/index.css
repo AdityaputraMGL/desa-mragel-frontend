@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* --- 1. Definisi Font & Warna Custom (Versi 4) --- */
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Warna Biru (Primary) agar tombol tidak error */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-900: #1e3a8a;
+
+  /* Warna Hijau (Secondary) */
+  --color-secondary-500: #22c55e;
+}
+
+/* --- 2. RESET LAYOUT WAJIB (Agar Full Screen & Tidak Mepet Kiri) --- */
+html,
+body,
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Mencegah scroll samping yang tidak perlu */
+}
+
+/* --- 3. Style Dasar Body --- */
+body {
+  font-family: var(--font-sans);
+  background-color: #f9fafb; /* Pengganti bg-gray-50 */
+  color: #111827; /* Pengganti text-gray-900 */
+  line-height: 1.5;
+}
+
+/* --- 4. Hapus Style Bawaan Link/Tombol --- */
+a {
+  text-decoration: none;
+}
