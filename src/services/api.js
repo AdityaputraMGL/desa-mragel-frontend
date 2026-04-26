@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL:
-    "https://desa-mragel-backend-qqjz0we9y-adityaputramgls-projects.vercel.app/api",
+  baseURL: "https://desa-mragel-backend.vercel.app/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -65,6 +64,6 @@ export const downloadSurat = async (id, namaFile) => {
 };
 
 export const IMAGE_URL =
-  "https://desa-mragel-backend-qqjz0we9y-adityaputramgls-projects.vercel.app/uploads/berita/";
+  "https://desa-mragel-backend.vercel.app/uploads/berita/";
 
 export default api;
