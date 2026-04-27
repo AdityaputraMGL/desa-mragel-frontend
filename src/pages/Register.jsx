@@ -32,6 +32,7 @@ const Register = () => {
     rt: "",
     rw: "",
     no_kk: "",
+    pekerjaan: "",
   });
 
   const handleChange = (e) => {
@@ -288,6 +289,27 @@ const Register = () => {
                   onChange={handleChange}
                   className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="001"
+                />
+              </div>
+            </div>
+
+            {/* Pekerjaan */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Pekerjaan <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  name="pekerjaan"
+                  type="text"
+                  required
+                  value={formData.pekerjaan}
+                  onChange={handleChange}
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder="Contoh: Petani, Wiraswasta, PNS"
                 />
               </div>
             </div>
