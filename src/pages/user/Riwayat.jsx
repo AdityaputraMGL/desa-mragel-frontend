@@ -92,13 +92,17 @@ const Riwayat = () => {
       return;
     }
 
-    const url = fileName.startsWith("http")
+    let url = fileName.startsWith("http")
       ? fileName
       : `https://desa-mragel-backend.vercel.app/public/uploads/surat/${fileName}`;
 
-    // Langsung buka URL di tab baru — tidak perlu fetch
+    // ✅ Paksa download jika file dari Cloudinary
+    if (url.includes("cloudinary.com")) {
+      url = url.replace("/upload/", "/upload/fl_attachment/");
+    }
+
     window.open(url, "_blank");
-    toast.success("File dibuka di tab baru!");
+    toast.success("File sedang diunduh!");
   };
 
   // --- HELPER STATUS BADGE ---
