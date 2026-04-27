@@ -106,7 +106,17 @@ const Riwayat = () => {
       const downloadUrl = window.URL.createObjectURL(blob);
 
       // Ambil ekstensi dari URL
-      const ext = url.split(".").pop().split("?")[0] || "pdf";
+      const contentType = response.headers.get("content-type");
+      const extMap = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "application/pdf": "pdf",
+        "application/msword": "doc",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+          "docx",
+      };
+      const ext =
+        extMap[contentType] || url.split(".").pop().split("?")[0] || "jpg";
 
       const link = document.createElement("a");
       link.href = downloadUrl;
