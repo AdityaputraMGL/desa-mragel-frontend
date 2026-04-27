@@ -86,51 +86,19 @@ const Riwayat = () => {
   };
 
   // --- LOGIKA BARU: PAKSA DOWNLOAD SURAT ASLI ---
-  const handleDownloadSurat = async (fileName, namaSurat) => {
+  const handleDownloadSurat = (fileName, namaSurat) => {
     if (!fileName) {
       toast.error("Maaf, Surat Asli belum diunggah oleh Admin.");
       return;
     }
 
-    const toastId = toast.loading("Menyiapkan file untuk diunduh...");
-    try {
-      // ✅ Cek apakah fileName sudah berupa full URL (Cloudinary) atau nama file biasa
-      const url = fileName.startsWith("http")
-        ? fileName // ✅ Langsung pakai kalau sudah full URL Cloudinary
-        : `https://desa-mragel-backend.vercel.app/public/uploads/surat/${fileName}`; // fallback lama
+    const url = fileName.startsWith("http")
+      ? fileName
+      : `https://desa-mragel-backend.vercel.app/public/uploads/surat/${fileName}`;
 
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Gagal mengambil file");
-
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-
-      // Ambil ekstensi dari URL
-      const contentType = response.headers.get("content-type");
-      const extMap = {
-        "image/jpeg": "jpg",
-        "image/png": "png",
-        "application/pdf": "pdf",
-        "application/msword": "doc",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-          "docx",
-      };
-      const ext =
-        extMap[contentType] || url.split(".").pop().split("?")[0] || "jpg";
-
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = `Dokumen-${(namaSurat || "Surat_Desa").replace(/\s+/g, "_")}.${ext}`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      window.URL.revokeObjectURL(downloadUrl);
-      toast.success("Surat berhasil diunduh!", { id: toastId });
-    } catch (error) {
-      console.error(error);
-      toast.error("Gagal mengunduh file. Coba lagi nanti.", { id: toastId });
-    }
+    // Langsung buka URL di tab baru — tidak perlu fetch
+    window.open(url, "_blank");
+    toast.success("File dibuka di tab baru!");
   };
 
   // --- HELPER STATUS BADGE ---
