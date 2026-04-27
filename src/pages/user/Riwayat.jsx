@@ -86,23 +86,33 @@ const Riwayat = () => {
   };
 
   // --- LOGIKA BARU: PAKSA DOWNLOAD SURAT ASLI ---
-  const handleDownloadSurat = (fileName, namaSurat) => {
-    if (!fileName) {
+  // Fungsi
+  const handleDownloadSurat = async (idPengajuan, namaSurat) => {
+    if (!idPengajuan) {
       toast.error("Maaf, Surat Asli belum diunggah oleh Admin.");
       return;
     }
-
-    let url = fileName.startsWith("http")
-      ? fileName
-      : `https://desa-mragel-backend.vercel.app/public/uploads/surat/${fileName}`;
-
-    // ✅ Paksa download jika file dari Cloudinary
-    if (url.includes("cloudinary.com")) {
-      url = url.replace("/upload/", "/upload/fl_attachment/");
+    const toastId = toast.loading("Mengunduh file...");
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `https://desa-mragel-backend.vercel.app/api/pengajuan/${idPengajuan}/download`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      if (!response.ok) throw new Error("Gagal download");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Surat-${(namaSurat || "Desa").replace(/\s+/g, "_")}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success("Surat berhasil diunduh!", { id: toastId });
+    } catch (error) {
+      toast.error("Gagal mengunduh file.", { id: toastId });
     }
-
-    window.open(url, "_blank");
-    toast.success("File sedang diunduh!");
   };
 
   // --- HELPER STATUS BADGE ---
@@ -407,7 +417,7 @@ const Riwayat = () => {
                           <button
                             onClick={() =>
                               handleDownloadSurat(
-                                item.file_hasil,
+                                item.id_pengajuan,
                                 item.jenisSurat?.nama_surat,
                               )
                             }
@@ -528,7 +538,7 @@ const Riwayat = () => {
                         <button
                           onClick={() =>
                             handleDownloadSurat(
-                              selectedItem.file_hasil,
+                              selectedItem.id_pengajuan,
                               selectedItem.jenisSurat?.nama_surat ||
                                 selectedItem.jenis_surat,
                             )
