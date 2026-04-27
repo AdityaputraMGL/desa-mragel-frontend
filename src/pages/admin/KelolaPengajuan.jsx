@@ -93,7 +93,8 @@ const KelolaPengajuan = () => {
 
   const getImageUrl = (filename) => {
     if (!filename) return null;
-    return `https://desa-mragel-backend.vercel.app/public/uploads/syarat/${filename}`;
+    // Jika sudah link (https), langsung kembalikan linknya saja
+    return filename;
   };
 
   return (
@@ -389,10 +390,10 @@ const KelolaPengajuan = () => {
                           berhasil diunggah dan dikirim ke warga.
                         </p>
                         <a
-                          href={`https://desa-mragel-backend.vercel.app/public/uploads/surat/${selectedItem.file_hasil}`}
+                          href={selectedItem.file_hasil} // <-- Langsung panggil variabelnya
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-50 transition-colors focus:ring-4 focus:ring-green-100"
+                          className="inline-flex items-center ..."
                         >
                           <Eye size={16} className="mr-2" /> Lihat Dokumen
                           Terlampir
