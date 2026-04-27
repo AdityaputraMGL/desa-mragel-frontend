@@ -94,31 +94,28 @@ const Riwayat = () => {
 
     const toastId = toast.loading("Menyiapkan file untuk diunduh...");
     try {
-      const url = `https://desa-mragel-backend.vercel.app/public/uploads/syarat/${fileName}`;
+      // ✅ Cek apakah fileName sudah berupa full URL (Cloudinary) atau nama file biasa
+      const url = fileName.startsWith("http")
+        ? fileName // ✅ Langsung pakai kalau sudah full URL Cloudinary
+        : `https://desa-mragel-backend.vercel.app/public/uploads/surat/${fileName}`; // fallback lama
 
-      // Ambil file dari server
       const response = await fetch(url);
       if (!response.ok) throw new Error("Gagal mengambil file");
 
-      // Ubah jadi blob (file mentah)
       const blob = await response.blob();
       const downloadUrl = window.URL.createObjectURL(blob);
 
-      // Ambil ekstensi file (misal: .pdf atau .jpg)
-      const ext = fileName.split(".").pop();
+      // Ambil ekstensi dari URL
+      const ext = url.split(".").pop().split("?")[0] || "pdf";
 
-      // Bikin elemen link rahasia untuk klik download
       const link = document.createElement("a");
       link.href = downloadUrl;
-      // Format nama file: Dokumen-Surat_Keterangan.pdf
       link.download = `Dokumen-${(namaSurat || "Surat_Desa").replace(/\s+/g, "_")}.${ext}`;
       document.body.appendChild(link);
-      link.click(); // Eksekusi klik otomatis
-      link.remove(); // Hapus link rahasia
+      link.click();
+      link.remove();
 
-      // Bersihkan memori
       window.URL.revokeObjectURL(downloadUrl);
-
       toast.success("Surat berhasil diunduh!", { id: toastId });
     } catch (error) {
       console.error(error);
@@ -587,7 +584,11 @@ const Riwayat = () => {
                       </label>
                       {/* 👇 DITAMBAH /public/ DI SINI 👇 */}
                       <img
-                        src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_bukti}`}
+                        src={
+                          selectedItem.foto_bukti?.startsWith("http")
+                            ? selectedItem.foto_bukti
+                            : `https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_bukti}`
+                        }
                         alt="Bukti Warga"
                         className="w-full h-64 object-cover rounded-lg border border-gray-200"
                         onError={(e) => (e.target.style.display = "none")}
@@ -610,7 +611,11 @@ const Riwayat = () => {
                           </p>
                           {/* 👇 DITAMBAH /public/ DI SINI JUGA 👇 */}
                           <img
-                            src={`https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_hasil}`}
+                            src={
+                              selectedItem.foto_hasil?.startsWith("http")
+                                ? selectedItem.foto_hasil
+                                : `https://desa-mragel-backend.vercel.app/public/uploads/pengaduan/${selectedItem.foto_hasil}`
+                            }
                             alt="Bukti Tindakan Petugas"
                             className="w-full h-64 object-cover rounded-lg border border-blue-300 shadow-sm"
                             onError={(e) => (e.target.style.display = "none")}
