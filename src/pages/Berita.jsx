@@ -2,9 +2,10 @@ import { ArrowLeft, Calendar, ChevronRight, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // Pastikan path ini benar
-import api, { IMAGE_URL } from "../services/api";
+import api from "../services/api";
 
 const Berita = () => {
+  const fotoDefault = "https://via.placeholder.com/400x200?text=No+Image";
   const [beritaList, setBeritaList] = useState([]);
   const [selectedBerita, setSelectedBerita] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -79,11 +80,7 @@ const Berita = () => {
                   onClick={() => setSelectedBerita(berita)}
                 >
                   <img
-                    src={
-                      berita.gambar
-                        ? `${IMAGE_URL}${berita.gambar}`
-                        : fotoDefault
-                    }
+                    src={berita.gambar || fotoDefault}
                     alt={berita.judul}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -141,11 +138,7 @@ const Berita = () => {
             </button>
             <div className="relative h-64 sm:h-80 w-full bg-gray-200">
               <img
-                src={
-                  selectedBerita.gambar
-                    ? `${IMAGE_URL}${selectedBerita.gambar}`
-                    : fotoDefault
-                }
+                src={selectedBerita.gambar || fotoDefault}
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.src = fotoDefault;
