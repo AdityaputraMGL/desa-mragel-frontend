@@ -1,7 +1,7 @@
 import { Edit, Image as ImageIcon, Plus, Trash2, X } from "lucide-react"; // Tambah icon X untuk modal
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import api, { IMAGE_URL } from "../../services/api";
+import api from "../../services/api";
 
 const KelolaBerita = () => {
   const [beritaList, setBeritaList] = useState([]);
@@ -173,7 +173,7 @@ const KelolaBerita = () => {
                     <td className="p-4 whitespace-nowrap">
                       {item.gambar ? (
                         <img
-                          src={`${IMAGE_URL}${item.gambar}`}
+                          src={item.gambar}
                           alt="Thumb"
                           className="w-16 h-16 object-cover rounded-lg border border-gray-200"
                           onError={(e) => {
