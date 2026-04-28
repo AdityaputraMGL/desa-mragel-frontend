@@ -294,163 +294,103 @@ const Riwayat = () => {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    {/* Header Tabel Berubah Sesuai Tab */}
-                    {activeTab === "surat" ? (
-                      <>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Nomor & Tanggal
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Jenis Surat
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Keperluan
-                        </th>
-                      </>
-                    ) : (
-                      <>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Tanggal Lapor
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Judul Laporan
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Isi Singkat
-                        </th>
-                      </>
-                    )}
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Aksi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredData.map((item) => (
-                    <tr
-                      key={
-                        activeTab === "surat"
-                          ? item.id_pengajuan
-                          : item.id_pengaduan
-                      }
-                      className="hover:bg-gray-50 transition"
-                    >
+            <div className="divide-y divide-gray-200">
+              {filteredData.map((item) => (
+                <div
+                  key={
+                    activeTab === "surat"
+                      ? item.id_pengajuan
+                      : item.id_pengaduan
+                  }
+                  className="p-4 hover:bg-gray-50 transition"
+                >
+                  <div className="flex justify-between items-start gap-2">
+                    <div className="flex-1 min-w-0">
                       {activeTab === "surat" ? (
                         <>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">
-                              {item.nomor_pengajuan}
-                            </div>
-                            <div className="text-sm text-gray-500 flex items-center mt-1">
-                              <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(
-                                item.tanggal_pengajuan,
-                              ).toLocaleDateString("id-ID", {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                              })}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">
-                              {item.jenisSurat?.nama_surat ||
-                                "Jenis Surat Dihapus"}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              Kode: {item.jenisSurat?.kode_surat}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div
-                              className="text-sm text-gray-900 max-w-xs truncate"
-                              title={item.keterangan || item.catatan}
-                            >
-                              {item.keterangan || item.catatan || "-"}
-                            </div>
-                          </td>
+                          <p className="text-sm font-bold text-gray-900">
+                            {item.nomor_pengajuan}
+                          </p>
+                          <p className="text-sm text-gray-700 mt-0.5">
+                            {item.jenisSurat?.nama_surat ||
+                              "Jenis Surat Dihapus"}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5 flex items-center">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {new Date(
+                              item.tanggal_pengajuan,
+                            ).toLocaleDateString("id-ID", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1 truncate">
+                            {item.keterangan || "-"}
+                          </p>
                         </>
                       ) : (
                         <>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-500 flex items-center">
-                              <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(item.created_at).toLocaleDateString(
-                                "id-ID",
-                                {
-                                  day: "numeric",
-                                  month: "long",
-                                  year: "numeric",
-                                },
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-gray-900">
-                              {item.judul}
-                            </div>
-                            <div className="text-xs text-gray-500 mt-1 uppercase">
-                              {item.kategori}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="text-sm text-gray-900 max-w-xs truncate">
-                              {item.isi_pengaduan}
-                            </div>
-                          </td>
+                          <p className="text-sm font-bold text-gray-900">
+                            {item.judul}
+                          </p>
+                          <p className="text-xs text-gray-500 uppercase mt-0.5">
+                            {item.kategori}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-0.5 flex items-center">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {new Date(item.created_at).toLocaleDateString(
+                              "id-ID",
+                              {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              },
+                            )}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1 truncate">
+                            {item.isi_pengaduan}
+                          </p>
                         </>
                       )}
+                      <div className="mt-2">{getStatusBadge(item.status)}</div>
+                    </div>
 
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(item.status)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2">
-                        {/* TOMBOL DOWNLOAD FILE HASIL DITABEL */}
-                        {activeTab === "surat" && item.status === "selesai" && (
-                          <button
-                            onClick={() =>
-                              handleDownloadSurat(
-                                item.id_pengajuan,
-                                item.jenisSurat?.nama_surat,
-                              )
-                            }
-                            className="text-green-600 hover:text-green-900 bg-green-50 p-2 rounded-lg transition-colors"
-                            title="Download Surat Asli (Sudah TTD)"
-                          >
-                            <Download className="w-5 h-5" />
-                          </button>
-                        )}
-
+                    <div className="flex flex-col gap-2 flex-shrink-0">
+                      {activeTab === "surat" && item.status === "selesai" && (
                         <button
                           onClick={() =>
-                            handleDetail(
-                              activeTab === "surat"
-                                ? item.id_pengajuan
-                                : item.id_pengaduan,
+                            handleDownloadSurat(
+                              item.id_pengajuan,
+                              item.jenisSurat?.nama_surat,
                             )
                           }
-                          className="text-primary-600 hover:text-primary-900 bg-primary-50 p-2 rounded-lg transition-colors"
-                          title="Lihat Detail"
-                          disabled={loadingDetail}
+                          className="text-green-600 bg-green-50 p-2 rounded-lg"
                         >
-                          {loadingDetail ? (
-                            <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
-                          ) : (
-                            <Eye className="w-5 h-5" />
-                          )}
+                          <Download className="w-5 h-5" />
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      )}
+                      <button
+                        onClick={() =>
+                          handleDetail(
+                            activeTab === "surat"
+                              ? item.id_pengajuan
+                              : item.id_pengaduan,
+                          )
+                        }
+                        className="text-primary-600 bg-primary-50 p-2 rounded-lg"
+                        disabled={loadingDetail}
+                      >
+                        {loadingDetail ? (
+                          <div className="w-5 h-5 border-2 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
