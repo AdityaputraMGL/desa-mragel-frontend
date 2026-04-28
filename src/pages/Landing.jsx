@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logoLamongan from "../assets/logo-lamongan.png";
 import fotoMragel from "../assets/mragel.jpeg";
-import api, { IMAGE_URL } from "../services/api";
+import api from "../services/api";
 
 const Landing = () => {
   // State untuk Popup Berita
@@ -273,9 +273,8 @@ const Landing = () => {
                 >
                   <img
                     src={
-                      berita.gambar
-                        ? `${IMAGE_URL}${berita.gambar}`
-                        : "https://via.placeholder.com/400x300?text=No+Image" // Fallback aman
+                      berita.gambar ||
+                      "https://via.placeholder.com/400x300?text=No+Image"
                     }
                     alt={berita.judul}
                     className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
@@ -445,9 +444,8 @@ const Landing = () => {
             <div className="relative h-64 sm:h-80 w-full bg-gray-200">
               <img
                 src={
-                  selectedBerita.gambar
-                    ? `${IMAGE_URL}${selectedBerita.gambar}`
-                    : "https://via.placeholder.com/800x400?text=No+Image"
+                  selectedBerita.gambar ||
+                  "https://via.placeholder.com/800x400?text=No+Image"
                 }
                 alt={selectedBerita.judul}
                 className="w-full h-full object-cover"
