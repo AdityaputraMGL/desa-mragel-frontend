@@ -63,75 +63,117 @@ const KelolaArsip = () => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          {loading ? (
-            <div className="px-6 py-8 text-center text-gray-500">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
-              Memuat arsip...
-            </div>
-          ) : filteredArsip.length === 0 ? (
-            <div className="px-6 py-12 text-center text-gray-500">
-              <Archive className="mx-auto h-12 w-12 text-gray-300 mb-3" />
-              <p className="text-lg font-medium text-gray-900">
-                Belum ada arsip surat
-              </p>
-              <p>Surat yang telah disetujui akan muncul di sini.</p>
-            </div>
-          ) : (
-            <div className="divide-y divide-gray-200">
-              {filteredArsip.map((item, index) => (
-                <div
-                  key={item.id_pengajuan}
-                  className="p-4 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex justify-between items-start gap-3">
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <User size={16} />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="font-semibold text-gray-900 text-sm">
-                          {item.user?.penduduk?.nama_lengkap || "Tanpa Nama"}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          NIK: {item.user?.penduduk?.nik || "-"}
-                        </p>
-                        <p className="text-sm text-gray-700 mt-1 font-medium">
-                          {item.jenis_surat?.replace(/_/g, " ").toUpperCase()}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          {new Date(item.updated_at).toLocaleDateString(
-                            "id-ID",
-                            { day: "numeric", month: "long", year: "numeric" },
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                    {item.file_hasil ? (
-                      <button
-                        onClick={async () => {
-                          const response = await fetch(item.file_hasil);
-                          const blob = await response.blob();
-                          const url = window.URL.createObjectURL(blob);
-                          const link = document.createElement("a");
-                          link.href = url;
-                          link.download = `Surat-${item.user?.penduduk?.nama_lengkap || "Warga"}`;
-                          link.click();
-                          window.URL.revokeObjectURL(url);
-                        }}
-                        className="flex-shrink-0 flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-                      >
-                        <Download size={16} className="mr-1.5" /> Unduh
-                      </button>
-                    ) : (
-                      <span className="text-xs text-gray-400 italic flex-shrink-0">
-                        Tidak tersedia
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th scope="col" className="px-6 py-4">
+                    No
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Nama Pemohon
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Jenis Surat
+                  </th>
+                  <th scope="col" className="px-6 py-4">
+                    Tanggal Diterbitkan
+                  </th>
+                  <th scope="col" className="px-6 py-4 text-center">
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="px-6 py-8 text-center text-gray-500"
+                    >
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
+                      Memuat arsip...
+                    </td>
+                  </tr>
+                ) : filteredArsip.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="px-6 py-12 text-center text-gray-500"
+                    >
+                      <Archive className="mx-auto h-12 w-12 text-gray-300 mb-3" />
+                      <p className="text-lg font-medium text-gray-900">
+                        Belum ada arsip surat
+                      </p>
+                      <p>Surat yang telah disetujui akan muncul di sini.</p>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredArsip.map((item, index) => (
+                    <tr
+                      key={item.id_pengajuan}
+                      className="bg-white border-b hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 font-medium text-gray-900">
+                        {index + 1}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center">
+                          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                            <User size={16} />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-900">
+                              {item.user?.penduduk?.nama_lengkap ||
+                                "Tanpa Nama"}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              NIK: {item.user?.penduduk?.nik || "-"}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-medium text-gray-700">
+                        {item.jenis_surat?.replace(/_/g, " ").toUpperCase()}
+                      </td>
+                      <td className="px-6 py-4">
+                        {new Date(item.updated_at).toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        {/* 👇 FIX: Arahkan ke folder SURAT (bukan syarat) 👇 */}
+                        {item.file_hasil ? (
+                          <button
+                            onClick={async () => {
+                              const response = await fetch(item.file_hasil);
+                              const blob = await response.blob();
+                              const url = window.URL.createObjectURL(blob);
+                              const link = document.createElement("a");
+                              link.href = url;
+                              link.download = `Surat-${item.user?.penduduk?.nama_lengkap || "Warga"}`;
+                              link.click();
+                              window.URL.revokeObjectURL(url);
+                            }}
+                            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                          >
+                            <Download size={16} className="mr-1.5" />
+                            File Surat
+                          </button>
+                        ) : (
+                          <span className="text-xs text-gray-400 italic">
+                            File tidak tersedia
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
