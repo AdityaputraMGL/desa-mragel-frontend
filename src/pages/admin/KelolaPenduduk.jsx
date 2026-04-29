@@ -125,95 +125,60 @@ const KelolaPenduduk = () => {
 
       {/* 👇 FIX UTAMA: Table Wrapper dengan overflow-x-auto 👇 */}
       <div className="bg-white rounded-lg shadow w-full overflow-hidden border border-gray-200">
-        <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[700px] text-sm text-left">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 py-3 font-bold text-gray-500 uppercase tracking-wider">
-                  NIK & Nama
-                </th>
-                <th className="px-4 py-3 font-bold text-gray-500 uppercase tracking-wider">
-                  TTL & JK
-                </th>
-                <th className="px-4 py-3 font-bold text-gray-500 uppercase tracking-wider">
-                  Alamat
-                </th>
-                <th className="px-4 py-3 font-bold text-gray-500 uppercase tracking-wider">
-                  Pekerjaan
-                </th>
-                <th className="px-4 py-3 text-right font-bold text-gray-500 uppercase tracking-wider">
-                  Aksi
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
-              {loading ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                    <span className="text-gray-500">Memuat data...</span>
-                  </td>
-                </tr>
-              ) : data.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-10 text-gray-500">
-                    Data tidak ditemukan.
-                  </td>
-                </tr>
-              ) : (
-                data.map((item) => (
-                  <tr
-                    key={item.id_penduduk}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
-                    {/* 👇 Tambah whitespace-nowrap agar teks tidak numpuk ke bawah */}
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="font-semibold text-gray-900">
-                        {item.nama_lengkap}
-                      </div>
-                      <div className="text-sm text-gray-500 font-mono mt-0.5">
-                        {item.nik}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
-                      <div>
-                        {item.tempat_lahir}, {item.tanggal_lahir}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-0.5 font-medium">
-                        {item.jenis_kelamin}
-                      </div>
-                    </td>
-                    <td
-                      className="px-4 py-4 text-sm text-gray-600 min-w-[200px] max-w-xs truncate"
-                      title={item.alamat_lengkap}
-                    >
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+            <span className="text-gray-500">Memuat data...</span>
+          </div>
+        ) : data.length === 0 ? (
+          <div className="text-center py-10 text-gray-500">
+            Data tidak ditemukan.
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-200">
+            {data.map((item) => (
+              <div
+                key={item.id_penduduk}
+                className="p-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900">
+                      {item.nama_lengkap}
+                    </p>
+                    <p className="text-xs text-gray-500 font-mono mt-0.5">
+                      {item.nik}
+                    </p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {item.tempat_lahir}, {item.tanggal_lahir} ·{" "}
+                      {item.jenis_kelamin}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">
                       {item.alamat_lengkap}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
                       {item.pekerjaan || "-"}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-right space-x-2">
-                      <button
-                        onClick={() => handleOpenModal(item)}
-                        className="text-blue-600 hover:text-blue-800 bg-blue-50 p-2 rounded-lg transition-colors inline-flex"
-                        title="Edit Data"
-                      >
-                        <Edit size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id_penduduk)}
-                        className="text-red-600 hover:text-red-800 bg-red-50 p-2 rounded-lg transition-colors inline-flex"
-                        title="Hapus Data"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                    </p>
+                  </div>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => handleOpenModal(item)}
+                      className="text-blue-600 bg-blue-50 p-2 rounded-lg transition-colors"
+                    >
+                      <Edit size={18} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id_penduduk)}
+                      className="text-red-600 bg-red-50 p-2 rounded-lg transition-colors"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* MODAL FORM */}
