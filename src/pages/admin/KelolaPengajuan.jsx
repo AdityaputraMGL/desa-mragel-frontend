@@ -118,100 +118,78 @@ const KelolaPengajuan = () => {
 
       {/* 👇 FIX UTAMA: Bungkus tabel dengan overflow-x-auto agar bisa digeser horizontal di HP 👇 */}
       <div className="bg-white rounded-lg shadow w-full overflow-hidden border border-gray-200">
-        <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[600px] text-sm text-left">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">
-                  Pemohon
-                </th>
-                <th className="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">
-                  Jenis Surat
-                </th>
-                <th className="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">
-                  Tanggal
-                </th>
-                <th className="px-4 py-3 font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-4 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">
-                  Aksi
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
-              {loading ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-8 text-gray-500">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                    Memuat data...
-                  </td>
-                </tr>
-              ) : data.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-12 text-gray-500">
-                    Belum ada pengajuan masuk.
-                  </td>
-                </tr>
-              ) : (
-                data.map((item) => (
-                  <tr
-                    key={item.id_pengajuan}
-                    className="hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">
-                        {item.user?.penduduk?.nama_lengkap ||
-                          item.user?.email ||
-                          "User"}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        NIK: {item.user?.penduduk?.nik || "-"}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-gray-700 min-w-[150px]">
-                      {item.jenisSurat?.nama_surat}
-                    </td>
-                    <td className="px-4 py-4 text-gray-500 whitespace-nowrap">
+        {loading ? (
+          <div className="text-center py-8 text-gray-500">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+            Memuat data...
+          </div>
+        ) : data.length === 0 ? (
+          <div className="text-center py-12 text-gray-500">
+            Belum ada pengajuan masuk.
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-200">
+            {data.map((item) => (
+              <div
+                key={item.id_pengajuan}
+                className="p-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-gray-900">
+                      {item.user?.penduduk?.nama_lengkap ||
+                        item.user?.email ||
+                        "User"}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      NIK: {item.user?.penduduk?.nik || "-"}
+                    </p>
+                    <p className="text-sm text-gray-700 mt-1">
+                      {item.jenisSurat?.nama_surat || "-"}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">
                       {formatTanggal(
                         item.tanggal ||
                           item.created_at ||
                           item.tanggal_pengajuan,
                       )}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    </p>
+                    <div className="mt-2">
                       <span
                         className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        ${item.status === "menunggu" ? "bg-yellow-100 text-yellow-800" : item.status === "selesai" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                  ${
+                    item.status === "menunggu"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : item.status === "selesai"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                  }`}
                       >
                         {item.status.toUpperCase()}
                       </span>
-                    </td>
-                    <td className="px-4 py-4 text-center whitespace-nowrap">
-                      <button
-                        onClick={async () => {
-                          try {
-                            const response =
-                              await pengajuanService.getPengajuanById(
-                                item.id_pengajuan,
-                              );
-                            setSelectedItem(response.data);
-                          } catch (error) {
-                            toast.error("Gagal memuat detail");
-                          }
-                        }}
-                        className="text-blue-600 hover:text-blue-900 bg-blue-50 p-2 rounded-lg transition"
-                        title="Lihat Detail"
-                      >
-                        <Eye size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      try {
+                        const response =
+                          await pengajuanService.getPengajuanById(
+                            item.id_pengajuan,
+                          );
+                        setSelectedItem(response.data);
+                      } catch (error) {
+                        toast.error("Gagal memuat detail");
+                      }
+                    }}
+                    className="text-blue-600 bg-blue-50 p-2 rounded-lg transition flex-shrink-0"
+                  >
+                    <Eye size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 👇 MODAL DETAIL 👇 */}
