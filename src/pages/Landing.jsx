@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logoLamongan from "../assets/logo-lamongan.png";
-import fotoMragel from "../assets/mragel.jpeg";
+import fotoMragel from "../assets/mragel.png";
 import api from "../services/api";
 
 const Landing = () => {
